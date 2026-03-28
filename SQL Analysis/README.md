@@ -1,6 +1,6 @@
 
 [Real_Estate_SQL_Project_README.md](https://github.com/user-attachments/files/26323069/Real_Estate_SQL_Project_README.md)
-# Real Estate Market Analysis (Advanced SQL Project)
+# Real Estate Market Analysis (Advanced SQL Analysis)
 
 ## Overview
 

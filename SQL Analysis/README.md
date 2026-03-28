@@ -1,119 +1,119 @@
-[README_with_SQL_Code.md](https://github.com/user-attachments/files/26323078/README_with_SQL_Code.md)# Real Estate Market Analysis \| SQL + Power BI
+[Real_Estate_SQL_Project_README.md](https://github.com/user-attachments/files/26323086/Real_Estate_SQL_Project_README.md)
+# Real Estate Market Analysis (Advanced SQL Queries)
 
 ## Overview
 
-End-to-end data analytics project using advanced SQL and Power BI to
-analyze real estate market trends, pricing behavior, and investment
-opportunities.
+This project showcases advanced SQL-based data analysis on a real estate
+dataset (`dframe`). It focuses on extracting actionable business
+insights using PostgreSQL features such as CTEs, window functions,
+ranking, and statistical analysis.
+
+The analysis is designed to simulate real-world business scenarios
+relevant to real estate investors, analysts, and decision-makers.
 
 ------------------------------------------------------------------------
 
-## Advanced Business Problems & SQL Solutions
+## Objectives
 
-### 1. Undervalued Properties
-
-Identify properties priced below 80% of city average.
-
-``` sql
-WITH data AS (
-    SELECT city, property_id, property_type,
-           price_per_sqm,
-           AVG(price_per_sqm) OVER (PARTITION BY city) AS city_avg
-    FROM dframe
-    WHERE listing_type = 'Sale'
-)
-SELECT *,
-       ROUND(((city_avg - price_per_sqm) / city_avg) * 100, 2) AS discount_pct
-FROM data
-WHERE price_per_sqm < 0.8 * city_avg;
-```
+-   Identify high-value and investment-worthy properties
+-   Analyze pricing trends and market growth
+-   Evaluate supply vs demand dynamics
+-   Understand pricing efficiency based on property characteristics
 
 ------------------------------------------------------------------------
 
-### 2. Market Momentum (MoM Growth)
+## Tools & Technologies
 
-Track monthly price trends per city.
-
-``` sql
-WITH sales AS (
-    SELECT city,
-           DATE_TRUNC('month', listing_date) AS month,
-           AVG(sale_price_eur) AS avg_price
-    FROM dframe
-    GROUP BY city, month
-),
-growth AS (
-    SELECT *,
-           LAG(avg_price) OVER (PARTITION BY city ORDER BY month) AS prev_price
-    FROM sales
-)
-SELECT *,
-       ROUND(((avg_price - prev_price) / prev_price) * 100, 2) AS mom_growth_pct
-FROM growth;
-```
+-   PostgreSQL (SQL)
+-   Window Functions (DENSE_RANK, LAG)
+-   Common Table Expressions (CTEs)
+-   Aggregations & Statistical Functions
+-   Business Analytics Logic
 
 ------------------------------------------------------------------------
 
-### 3. Price Efficiency by Property Size
+## Key Analytical Problems Solved
 
-Analyze cost efficiency across size segments.
+### 1. Top Expensive Properties per City
 
-``` sql
-WITH prop_size AS (
-    SELECT *,
-        CASE 
-            WHEN square_meters < 80 THEN 'Small'
-            WHEN square_meters BETWEEN 80 AND 150 THEN 'Medium'
-            ELSE 'Large'
-        END AS size_category
-    FROM dframe
-)
-SELECT size_category,
-       AVG(price_per_sqm) AS avg_price_sqm
-FROM prop_size
-GROUP BY size_category
-ORDER BY avg_price_sqm;
-```
+-   Ranked properties within each city using `DENSE_RANK`
+-   Identified top 3 most expensive properties per city
 
-------------------------------------------------------------------------
+### 2. Month-over-Month Price Growth
 
-### 4. Inventory Pressure (Supply vs Demand)
+-   Calculated monthly average prices
+-   Used `LAG()` to compute MoM growth %
+-   Handled nulls and division safety using `COALESCE` and `NULLIF`
 
-Measure market saturation.
+### 3. Premium Floors Analysis
 
-``` sql
-WITH city_stats AS (
-    SELECT city,
-           COUNT(*) AS total_listings,
-           AVG(days_on_market) AS avg_days
-    FROM dframe
-    WHERE listing_type = 'Sale'
-    GROUP BY city
-)
-SELECT *,
-       (total_listings * avg_days) AS pressure_score
-FROM city_stats
-ORDER BY pressure_score DESC;
-```
+-   Evaluated average price per sqm by floor level
+-   Ranked top-performing floors per city & property type
+
+### 4. Luxury Gap Detection (Amenities Analysis)
+
+-   Identified expensive properties lacking key amenities (gym,
+    elevator, pool)
+-   Compared prices against city median using `PERCENTILE_CONT`
 
 ------------------------------------------------------------------------
 
-## Power BI Dashboard
+## Advanced Business Use Cases
 
--   Price trends & growth visualization\
--   City-level insights\
--   Inventory pressure analysis\
--   KPI metrics for decision making
+### 5. Undervalued Property Detection
+
+-   Compared property price per sqm against city average
+-   Flagged properties priced below 80% of market value
+-   Calculated discount percentage → investment opportunities
+
+### 6. Market Momentum Analysis
+
+-   Measured price growth trends per city over time
+-   Classified cities as growing, declining, or stable
+
+### 7. Price Efficiency by Property Size
+
+-   Grouped properties into size buckets (Small, Medium, Large)
+-   Compared cost efficiency using price per sqm
+-   Ranked most efficient property sizes
+
+### 8. Inventory Pressure (Supply vs Demand)
+
+-   Combined total listings and days on market
+-   Created a custom "inventory pressure score"
+-   Identified high-pressure (slow-moving) markets
 
 ------------------------------------------------------------------------
 
-## Tech Stack
+## Key Insights Generated
 
-SQL (PostgreSQL) • Power BI • Python
+-   High-priced properties are not always well-equipped (amenity gaps
+    exist)
+-   Some cities show strong upward momentum while others stagnate
+-   Larger properties may offer better cost efficiency per sqm
+-   High inventory pressure highlights oversupply risk areas
+-   Undervalued properties provide strong investment signals
+
+------------------------------------------------------------------------
+
+## Skills Demonstrated
+
+-   Advanced SQL querying
+-   Analytical thinking & business problem solving
+-   Data transformation and feature engineering
+-   Performance metrics design
+-   Real-world data analysis scenarios
 
 ------------------------------------------------------------------------
 
 ## Author
 
-Vishva Suraj
+Vishva Suraj\
+Aspiring Data Analyst \| SQL \| Python \| Power BI \| Machine Learning
 
+------------------------------------------------------------------------
+
+## Notes
+
+This project is portfolio-ready and demonstrates the ability to
+translate raw data into meaningful business insights using SQL alone.

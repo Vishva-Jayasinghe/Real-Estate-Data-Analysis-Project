@@ -163,8 +163,10 @@ ORDER BY inventory_pressure_score DESC;
 - Measured supply-demand imbalance (inventory pressure)
 
 ---
+## Future Works (Next Task) 
+--------------------------------------
 
-## 📊 Power BI Dashboard (Recommended)
+## 📊 Power BI Dashboard
 Suggested visuals:
 - Price trends over time (Line Chart)
 - City-wise average prices (Bar Chart)

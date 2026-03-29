@@ -77,12 +77,5 @@ Amenity Price Premium (%)
 3. Explore visuals  
 
 ---
-
-## 📷 Screenshots
-![Dashboard 1](INSERT_IMAGE_LINK_HERE)
-![Dashboard 2](INSERT_IMAGE_LINK_HERE)
-
----
-
 ## 🔗 Conclusion
 A comprehensive dashboard for analyzing the European real estate market.
